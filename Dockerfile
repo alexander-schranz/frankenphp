@@ -55,8 +55,6 @@ COPY . .
 RUN cd caddy/frankenphp && \
     go build
 
-ENV HELLO=WORLD
-
 RUN ls -lah caddy/frankenphp && \
     cp caddy/frankenphp/frankenphp /usr/local/bin/frankenphp
 
@@ -79,6 +77,8 @@ COPY --from=builder /etc/Caddyfile /etc/Caddyfile
 
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
 
-RUN install-php-extensions pdo_mysql gd
+RUN install-php-extensions pdo_mysql gd opcache
+
+COPY "custom.ini" "/usr/local/etc/php/conf.d/99_custom.ini"
 
 ENTRYPOINT [ "frankenphp", "run", "--config", "/etc/Caddyfile" ]
