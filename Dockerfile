@@ -77,7 +77,7 @@ COPY --from=builder /etc/Caddyfile /etc/Caddyfile
 
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
 
-RUN install-php-extensions pdo_mysql gd opcache
+RUN install-php-extensions pdo_mysql gd opcache apcu redis zip intl
 
 COPY "custom.ini" "/usr/local/etc/php/conf.d/99_custom.ini"
 
